@@ -1,1 +1,7 @@
+<?php 
+include 
+$result = mysqli_query(#koneksi, " select..... ");
 
+<!DOCTYPE html>
+<html>
+?> 
