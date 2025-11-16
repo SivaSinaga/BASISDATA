@@ -4,4 +4,10 @@ $result = mysqli_query(#koneksi, " select..... ");
 
 <!DOCTYPE html>
 <html>
+<head> 
+<tittle> Tambah Mobil </tittle>
+</head>
+<body> 
+<h2>Tambah Mobil</h2>
+
 ?> 
