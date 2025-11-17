@@ -1,6 +1,6 @@
-<?php include "config.php"; ?>
+<?php include "koneksi.php"; ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <tittle> Rental Mobil Gen Z </tittle>
   </head>
@@ -10,7 +10,7 @@
       <li> <a href =" Pelanggan/.. " > Data Pelanggan </a></li>
       <li> <a href = "Mobil/.. " > Data Mobil </a></li>
       <li> <a href = "sewa/..." >Data Sewa </a></li> 
-    -- tambahan..... hmm apa yaa
+    
     </ul>
   </body>
 </html>
