@@ -22,7 +22,22 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link <?= ($page=='dashboard'?'active':'') ?>" href="index.php">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link <?= ($page=='mobil'?'active':'') ?>" href="mobil.php">Data Mobil</a></li>
+        <li class="nav-item"><a class="nav-link <?= ($page=='penyewaan'?'active':'') ?>" href="penyewaan.php">Penyewaan</a></li>
+        <li class="nav-item"><a class="nav-link <?= ($page=='pelanggan'?'active':'') ?>" href="pelanggan.php">Pelanggan</a></li>
+        <li class="nav-item"><a class="nav-link <?= ($page=='pembayaran'?'active':'') ?>" href="pembayaran.php">Pembayaran</a></li>
+        <li class="nav-item"><a class="nav-link <?= ($page=='pengembalian'?'active':'') ?>" href="pengembalian.php">Pengembalian</a></li>
+        <li class="nav-item"><a class="nav-link" href="logout.php" onclick="return confirm('Logout?')">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
   </div>
 </nav>
 
-<div class="container py-4">
+    
+<main class="flex-grow-1">
+    <div class="container py-4">
