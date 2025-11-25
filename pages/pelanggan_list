@@ -1,0 +1,71 @@
+<?php
+require 'config.php';
+cek_login();
+include 'templates/header.php';
+
+$q = isset($_GET['q']) ? trim($_GET['q']) : '';
+$where = '';
+if ($q !== ''){
+    $q_esc = mysqli_real_escape_string($conn, $q);
+    $where = "WHERE nama_pelanggan LIKE '%$q_esc%' 
+              OR no_hp LIKE '%$q_esc%' 
+              OR no_ktp LIKE '%$q_esc%' 
+              OR alamat LIKE '%$q_esc%'";
+}
+$sql = "SELECT * FROM pelanggan $where ORDER BY id_pelanggan DESC";
+$data = mysqli_query($conn, $sql);
+?>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="fw-bold">Data Pelanggan</h4>
+  <a href="pelanggan_form.php" class="btn btn-pink">+ Tambah Pelanggan</a>
+</div>
+
+<form class="mb-3" method="get">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <input type="text" class="form-control" name="q" placeholder="Cari nama / no HP / KTP..." value="<?= htmlspecialchars($q) ?>">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-outline-secondary w-100">Cari</button>
+    </div>
+  </div>
+</form>
+
+<div class="card card-soft">
+  <div class="card-body table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nama</th>
+          <th>No HP</th>
+          <th>No KTP</th>
+          <th>Alamat</th>
+          <th>Tgl Daftar</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php $no=1; while($p=mysqli_fetch_assoc($data)): ?>
+        <tr>
+          <td><?= $no++ ?></td>
+          <td><?= htmlspecialchars($p['nama_pelanggan']) ?></td>
+          <td><?= htmlspecialchars($p['no_hp']) ?></td>
+          <td><?= htmlspecialchars($p['no_ktp']) ?></td>
+          <td><?= htmlspecialchars($p['alamat']) ?></td>
+          <td><?= $p['created_at'] ?></td>
+          <td class="d-flex gap-1">
+            <a class="btn btn-sm btn-outline-secondary" href="pelanggan_form.php?id=<?= $p['id_pelanggan'] ?>">Edit</a>
+            <a class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Hapus pelanggan ini?')"
+               href="pelanggan_delete.php?id=<?= $p['id_pelanggan'] ?>">Hapus</a>
+          </td>
+        </tr>
+      <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<?php include 'templates/footer.php'; ?>
