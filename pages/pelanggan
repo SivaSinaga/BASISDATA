@@ -9,3 +9,12 @@ $result = mysqli_query($conn, "SELECT * FROM pelanggan ORDER BY nama");
     <div class="table-responsive">
       <table class="table table-striped align-middle mb-0">
         <thread class="table-primary">
+          <tr>
+            <th>#</th>
+            <th>Nama</th>
+            <th>Alamat</th>
+            <th>No Telepon</th>
+            <th>Email</th>
+            <th>No KTP</th>
+            <th>Tanggal Daftar</th>
+          </tr>
