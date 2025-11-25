@@ -1,0 +1,10 @@
+<?php
+require 'config.php';
+cek_login();
+
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if ($id > 0) {
+    mysqli_query($conn, "DELETE FROM pelanggan WHERE id_pelanggan=$id");
+}
+header("Location: pelanggan_list.php");
+exit;
