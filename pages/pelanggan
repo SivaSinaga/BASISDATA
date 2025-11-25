@@ -1,20 +1,17 @@
 <?php
-$result = mysqli_query($conn, "SELECT * FROM pelanggan ORDER BY nama");
-?>
+require 'config.php';
+cek_login();
 
-<h3 class= "mb-3">Data Pelanggan</h3>
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$edit = $id > 0;
 
-<div class="card shadow-sm">
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped align-middle mb-0">
-        <thread class="table-primary">
-          <tr>
-            <th>#</th>
-            <th>Nama</th>
-            <th>Alamat</th>
-            <th>No Telepon</th>
-            <th>Email</th>
-            <th>No KTP</th>
-            <th>Tanggal Daftar</th>
-          </tr>
+$pel = [
+  'nama_pelanggan'=>'','alamat'=>'','no_hp'=>'','no_ktp'=>'','created_at'=>date('Y-m-d H:i:s')
+];
+
+if ($edit) {
+    $res = mysqli_query($conn, "SELECT * FROM pelanggan WHERE id_pelanggan=$id");
+    if ($res && mysqli_num_rows($res) === 1) {
+        $pel = mysqli_fetch_assoc($res);
+    }
+}
