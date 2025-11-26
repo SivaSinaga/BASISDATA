@@ -15,7 +15,7 @@ CREATE TABLE pegawai (
     id_pegawai INT AUTO_INCREMENT PRIMARY KEY,
     nama_pegawai VARCHAR(100) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     no_hp VARCHAR(20)
 );
 
