@@ -20,9 +20,7 @@ if ($edit) {
     }
 }
 
-// data pelanggan
 $pelanggan = mysqli_query($conn, "SELECT id_pelanggan, nama_pelanggan FROM pelanggan ORDER BY nama_pelanggan");
-// data mobil (yang tersedia atau yang sedang dipakai di sewa ini)
 $mobil = mysqli_query($conn, "
     SELECT id_mobil, merk, tipe, harga_sewa, status
     FROM mobil
