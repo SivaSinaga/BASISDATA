@@ -16,7 +16,7 @@ $data = mysqli_query($conn, "SELECT * FROM mobil ORDER BY id_mobil DESC");
     <table class="table table-hover align-middle">
       <thead>
         <tr>
-          <th>#</th>
+          <th>id</th>
           <th>Merk</th>
           <th>Tipe</th>
           <th>Plat</th>
