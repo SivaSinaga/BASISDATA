@@ -25,7 +25,7 @@ $data = mysqli_query($conn, $sql);
     <table class="table table-hover align-middle">
       <thead>
         <tr>
-          <th>#</th>
+          <th>id</th>
           <th>Pelanggan</th>
           <th>Mobil</th>
           <th>Pegawai</th>
