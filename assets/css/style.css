@@ -1,0 +1,48 @@
+:root{
+  --pink-1:#ffe6f0;
+  --pink-2:#ffd1e6;
+  --pink-3:#ffb3d9;
+  --pink-4:#ff8fc8;
+  --text:#4a2b3a;
+}
+
+body.bg-soft{
+  background: radial-gradient(circle at top, var(--pink-1), #fff);
+  color: var(--text);
+  min-height:100vh;
+}
+
+.navbar-soft{
+  background: linear-gradient(90deg, var(--pink-3), var(--pink-2));
+  border-bottom:2px solid var(--pink-4);
+}
+
+.card-soft{
+  border:0;
+  border-radius:18px;
+  box-shadow:0 8px 20px rgba(255,143,200,.25);
+  background:#fff;
+}
+
+.btn-pink{
+  background: var(--pink-4);
+  border:none;
+  color:white;
+  font-weight:600;
+  border-radius:12px;
+  padding:.5rem 1rem;
+}
+.btn-pink:hover{
+  background:#ff78bb;
+  color:white;
+}
+
+.badge-soft{
+  background: var(--pink-3);
+  color:#7a1f4b;
+  font-weight:600;
+}
+
+.table thead{
+  background: var(--pink-2);
+}
