@@ -24,7 +24,7 @@ $result = mysqli_query($conn, $sql);
       <table class="table table-striped align-middle mb-0">
         <thead class="table-primary">
           <tr>
-            <th>#</th>
+            <th>id</th>
             <th>Tgl Bayar</th>
             <th>Pelanggan</th>
             <th>Mobil</th>
