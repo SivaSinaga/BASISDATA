@@ -1,0 +1,27 @@
+<?php
+// config.php - konfigurasi database & session
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$db   = 'rental_mobil'; // nama database sesuai punyamu
+
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+
+mysqli_set_charset($conn, 'utf8');
+
+// fungsi proteksi halaman
+function cek_login(){
+    if (!isset($_SESSION['id_pegawai'])) {
+        header("Location: login.php");
+        exit;
+    }
+}
