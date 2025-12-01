@@ -1,0 +1,78 @@
+<?php
+require 'config.php';
+cek_login();
+
+$total_mobil = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS jml FROM mobil"))['jml'];
+$total_sewa_berjalan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS jml FROM sewa WHERE status_sewa='berjalan'"))['jml'];
+$total_pendapatan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT IFNULL(SUM(jumlah_bayar),0) AS total FROM pembayaran WHERE status_bayar='lunas'"))['total'];
+
+$sewa_terbaru = mysqli_query($conn, "
+  SELECT s.id_sewa, p.nama_pelanggan, m.merk, m.tipe, s.tanggal_sewa, s.status_sewa
+  FROM sewa s
+  JOIN pelanggan p ON s.id_pelanggan=p.id_pelanggan
+  JOIN mobil m ON s.id_mobil=m.id_mobil
+  ORDER BY s.id_sewa DESC
+  LIMIT 10
+");
+
+include 'templates/header.php';
+?>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-4">
+    <div class="card card-soft">
+      <div class="card-body">
+        <div class="text-muted">Jumlah Mobil</div>
+        <h2 class="fw-bold"><?= $total_mobil ?></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-soft">
+      <div class="card-body">
+        <div class="text-muted">Sewa Berjalan</div>
+        <h2 class="fw-bold"><?= $total_sewa_berjalan ?></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-soft">
+      <div class="card-body">
+        <div class="text-muted">Pendapatan Lunas</div>
+        <h2 class="fw-bold">Rp <?= number_format($total_pendapatan,0,',','.') ?></h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-soft">
+  <div class="card-body">
+    <h5 class="fw-bold mb-3">Sewa Terbaru</h5>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+  <thead>
+    <tr>
+      <th>ID Sewa</th>
+      <th>Pelanggan</th>
+      <th>Mobil</th>
+      <th>Tanggal Sewa</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php while($row=mysqli_fetch_assoc($sewa_terbaru)): ?>
+    <tr>
+      <td><?= $row['id_sewa'] ?></td>
+      <td><?= htmlspecialchars($row['nama_pelanggan']) ?></td>
+      <td><?= htmlspecialchars($row['merk'].' '.$row['tipe']) ?></td>
+      <td><?= $row['tanggal_sewa'] ?></td>
+      <td><span class="badge badge-soft"><?= $row['status_sewa'] ?></span></td>
+          </tr>
+        <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<?php include 'templates/footer.php'; ?>
