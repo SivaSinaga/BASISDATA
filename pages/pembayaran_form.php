@@ -1,111 +1,101 @@
 <?php
-$id_bayar = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+require 'config.php';
+cek_login();
 
-$data = [
-    'id_sewa' => '',
-    'tanggal_bayar' => date('Y-m-d'),
-    'metode_bayar' => 'cash',
-    'jumlah_bayar' => '',
-    'status_bayar' => 'belum_lunas'
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$edit = $id > 0;
+
+$bayar = [
+  'id_sewa'=>'',
+  'tanggal_bayar'=>date('Y-m-d'),
+  'metode_bayar'=>'cash',
+  'jumlah_bayar'=>'',
+  'status_bayar'=>'pending'
 ];
 
-if ($id_bayar) {
-    $q = mysqli_query($conn, "SELECT * FROM tb_pembayaran WHERE id_bayar=$id_bayar");
-    if ($row = mysqli_fetch_assoc($q)) {
-        $data = $row;
+if ($edit) {
+    $res = mysqli_query($conn, "SELECT * FROM pembayaran WHERE id_bayar=$id");
+    if ($res && mysqli_num_rows($res) === 1) {
+        $bayar = mysqli_fetch_assoc($res);
     }
 }
 
-$sqlSewa = "SELECT s.id_sewa,
-                   p.nama AS nama_pelanggan,
-                   m.merk, m.tipe, m.plat_nomor,
-                   s.total_harga
-            FROM tb_penyewaan s
-            JOIN tb_pelanggan p ON s.id_pelanggan = p.id_pelanggan
-            JOIN tb_mobil m ON s.id_mobil = m.id_mobil
-            ORDER BY s.id_sewa DESC";
-$sewas = mysqli_query($conn, $sqlSewa);
+$sewa = mysqli_query($conn, "
+    SELECT s.id_sewa, p.nama_pelanggan
+    FROM sewa s
+    JOIN pelanggan p ON s.id_pelanggan=p.id_pelanggan
+    ORDER BY s.id_sewa DESC
+");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_sewa      = (int)$_POST['id_sewa'];
-    $tanggal_bayar= mysqli_real_escape_string($conn, $_POST['tanggal_bayar']);
-    $metode_bayar = mysqli_real_escape_string($conn, $_POST['metode_bayar']);
-    $jumlah_bayar = (float)$_POST['jumlah_bayar'];
-    $status_bayar = mysqli_real_escape_string($conn, $_POST['status_bayar']);
+if (isset($_POST['simpan'])) {
+    $id_sewa  = (int)$_POST['id_sewa'];
+    $tgl      = $_POST['tanggal_bayar'];
+    $metode   = $_POST['metode_bayar'];
+    $jumlah   = (float)$_POST['jumlah_bayar'];
+    $status   = $_POST['status_bayar'];
 
-    if ($id_bayar) {
-        $sql = "UPDATE tb_pembayaran SET
-                    id_sewa=$id_sewa,
-                    tanggal_bayar='$tanggal_bayar',
-                    metode_bayar='$metode_bayar',
-                    jumlah_bayar=$jumlah_bayar,
-                    status_bayar='$status_bayar'
-                WHERE id_bayar=$id_bayar";
+    if ($edit) {
+        $sql = "UPDATE pembayaran SET id_sewa=$id_sewa, tanggal_bayar='$tgl',
+                metode_bayar='$metode', jumlah_bayar=$jumlah, status_bayar='$status'
+                WHERE id_bayar=$id";
     } else {
-        $sql = "INSERT INTO tb_pembayaran
-                    (id_sewa, tanggal_bayar, metode_bayar, jumlah_bayar, status_bayar)
-                VALUES
-                    ($id_sewa, '$tanggal_bayar', '$metode_bayar', $jumlah_bayar, '$status_bayar')";
+        $sql = "INSERT INTO pembayaran(id_sewa,tanggal_bayar,metode_bayar,jumlah_bayar,status_bayar)
+                VALUES($id_sewa,'$tgl','$metode',$jumlah,'$status')";
     }
-
-    if (mysqli_query($conn, $sql)) {
-        header('Location: index.php?page=pembayaran');
-        exit;
-    } else {
-        echo "<div class='alert alert-danger'>Gagal menyimpan data: ".mysqli_error($conn)."</div>";
-    }
+    mysqli_query($conn, $sql);
+    header("Location: pembayaran_list.php");
+    exit;
 }
+
+include 'templates/header.php';
 ?>
 
-<h3 class="mb-3"><?php echo $id_bayar ? 'Edit Pembayaran' : 'Tambah Pembayaran'; ?></h3>
+<h4 class="fw-bold mb-3"><?= $edit ? 'Edit' : 'Tambah' ?> Pembayaran</h4>
 
-<div class="card shadow-sm">
+<div class="card card-soft">
   <div class="card-body">
-    <form method="post">
-      <div class="mb-3">
-        <label class="form-label">Pilih Sewa</label>
+    <form method="post" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">ID Sewa - Pelanggan</label>
         <select name="id_sewa" class="form-select" required>
-          <option value="">-- Pilih Transaksi Sewa --</option>
-          <?php while($s = mysqli_fetch_assoc($sewas)): ?>
-            <?php
-              $label = 'ID#'.$s['id_sewa'].' - '.$s['nama_pelanggan'].' - '.$s['merk'].' '.$s['tipe'].' ('.$s['plat_nomor'].') - Rp '.number_format($s['total_harga'],0,',','.');
-            ?>
-            <option value="<?php echo $s['id_sewa']; ?>" <?php echo $data['id_sewa']==$s['id_sewa']?'selected':''; ?>>
-              <?php echo htmlspecialchars($label); ?>
+          <option value="">- pilih sewa -</option>
+          <?php mysqli_data_seek($sewa,0); while($s=mysqli_fetch_assoc($sewa)): ?>
+            <option value="<?= $s['id_sewa'] ?>" <?= $bayar['id_sewa']==$s['id_sewa']?'selected':''; ?>>
+              <?= $s['id_sewa'].' - '.htmlspecialchars($s['nama_pelanggan']) ?>
             </option>
           <?php endwhile; ?>
         </select>
       </div>
-
-      <div class="row mb-3">
-        <div class="col-md-4">
-          <label class="form-label">Tanggal Bayar</label>
-          <input type="date" name="tanggal_bayar" class="form-control" required value="<?php echo htmlspecialchars($data['tanggal_bayar']); ?>">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Metode Bayar</label>
-          <select name="metode_bayar" class="form-select">
-            <option value="cash" <?php echo $data['metode_bayar']=='cash'?'selected':''; ?>>Cash</option>
-            <option value="transfer" <?php echo $data['metode_bayar']=='transfer'?'selected':''; ?>>Transfer</option>
-            <option value="ewallet" <?php echo $data['metode_bayar']=='ewallet'?'selected':''; ?>>E-Wallet</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Jumlah Bayar</label>
-          <input type="number" name="jumlah_bayar" class="form-control" required value="<?php echo htmlspecialchars($data['jumlah_bayar']); ?>">
-        </div>
+      <div class="col-md-3">
+        <label class="form-label">Tanggal Bayar</label>
+        <input type="date" name="tanggal_bayar" class="form-control" required value="<?= $bayar['tanggal_bayar'] ?>">
       </div>
-
-      <div class="mb-3">
-        <label class="form-label">Status Pembayaran</label>
-        <select name="status_bayar" class="form-select">
-          <option value="lunas" <?php echo $data['status_bayar']=='lunas'?'selected':''; ?>>Lunas</option>
-          <option value="belum_lunas" <?php echo $data['status_bayar']=='belum_lunas'?'selected':''; ?>>Belum Lunas</option>
+      <div class="col-md-3">
+        <label class="form-label">Metode</label>
+        <select name="metode_bayar" class="form-select">
+          <?php foreach (['cash','transfer','qris'] as $m): ?>
+            <option value="<?= $m ?>" <?= $bayar['metode_bayar']===$m?'selected':''; ?>><?= strtoupper($m) ?></option>
+          <?php endforeach; ?>
         </select>
       </div>
-
-      <button type="submit" class="btn btn-primary">Simpan</button>
-      <a href="index.php?page=pembayaran" class="btn btn-secondary">Kembali</a>
+      <div class="col-md-4">
+        <label class="form-label">Jumlah Bayar</label>
+        <input type="number" step="0.01" name="jumlah_bayar" class="form-control" required value="<?= htmlspecialchars($bayar['jumlah_bayar']) ?>">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Status</label>
+        <select name="status_bayar" class="form-select">
+          <?php foreach (['lunas','belum_lunas','pending'] as $st): ?>
+            <option value="<?= $st ?>" <?= $bayar['status_bayar']===$st?'selected':''; ?>><?= $st ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-12 d-flex gap-2">
+        <button type="submit" name="simpan" class="btn btn-pink">Simpan</button>
+        <a href="pembayaran_list.php" class="btn btn-outline-secondary">Kembali</a>
+      </div>
     </form>
   </div>
 </div>
+
+<?php include 'templates/footer.php'; ?>
