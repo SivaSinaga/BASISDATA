@@ -439,7 +439,7 @@ INSERT INTO pelanggan (nama_pelanggan, alamat, no_hp, no_ktp, created_at) VALUES
 ('Hafizul Hakim', 'Jl. Merdeka No.59, Pesawaran', '081234568433', '1672010104330433', '2025-03-15 00:00:00'),
 ('Nurlaila Rahmawati', 'Jl. Anggrek Mas No.28, Kedaton', '081234568434', '1672010104340434', '2025-03-16 00:00:00'),
 ('Rio Kurniawan', 'Jl. Gunung Raya No.31, Panjang', '081234568435', '1672010104350435', '2025-03-17 00:00:00'),
-('Cici Marlina', 'Jl. Kenanga Barat No.18, Metro', '081234568436', '1672010104360436', '2025-03-18 00:00:00');
+('Cici Marlina', 'Jl. Kenanga Barat No.18, Metro', '081234568436', '1672010104360436', '2025-03-18 00:00:00'),
 ('Faris Nurhuda', 'Jl. Melawai No.55, Bandar Lampung', '081234568437', '1672010104370437', '2025-03-19 00:00:00'),
 ('Selina Ambarwati', 'Jl. Tulip Baru No.39, Metro Utara', '081234568438', '1672010104380438', '2025-03-20 00:00:00'),
 ('Bagas Rizaldi', 'Jl. Gunung Agung No.22, Kemiling', '081234568439', '1672010104390439', '2025-03-21 00:00:00'),
@@ -498,7 +498,7 @@ INSERT INTO pelanggan (nama_pelanggan, alamat, no_hp, no_ktp, created_at) VALUES
 ('Cindy Oktalina', 'Jl. Anggrek Baru No.10, Pringsewu', '081234568492', '1672010104920492', '2025-05-13 00:00:00'),
 ('Hafiz Nurkamal', 'Jl. Gunung Baru No.19, Bandar Lampung', '081234568493', '1672010104930493', '2025-05-14 00:00:00'),
 ('Nindya Zahira', 'Jl. Seroja No.33, Way Halim', '081234568494', '1672010104940494', '2025-05-15 00:00:00'),
-('Rafli Surya Prasetya', 'Jl. Mawar Timur No.11, Metro Utara', '081234568495', '1672010104950495', '2025-05-16 00:00:00'); 
+('Rafli Surya Prasetya', 'Jl. Mawar Timur No.11, Metro Utara', '081234568495', '1672010104950495', '2025-05-16 00:00:00'),
 ('Hendra Pratama', 'Jl. Melati No.16, Metro', '08260938817', '1671000000001', '2024-01-01 09:00:00'),
 ('Gita Lesmana', 'Jl. Kamboja No.6, Way Kanan', '08564146221', '1671000000002', '2024-01-02 09:00:00'),
 ('Citra Pratama', 'Jl. Kartini No.14, Metro', '08653732219', '1671000000003', '2024-01-03 09:00:00'),
