@@ -1,6 +1,8 @@
 <?php
 // template untuk header 
 // ketika mau menghubungan atau menampilkan header panggil dengan 'templates/footer.php'
+require_once __DIR__ . '/../config.php';
+cek_login();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -13,17 +15,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet"> <!--terhubung ke css yg buat tampilan lebih menarik-->
 </head>
-<body class="bg-light"> <!--warna background-->
+<body class="bg-soft"> <!--warna background-->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-soft sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.php">Rental Mobil Gen Z</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <a class="navbar-brand fw-bold" href="index.php">Rental Mobil </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto gap-2">
         <li class="nav-item"><a class="nav-link <?= ($page=='dashboard'?'active':'') ?>" href="index.php">Dashboard</a></li>
         <li class="nav-item"><a class="nav-link <?= ($page=='mobil'?'active':'') ?>" href="mobil.php">Data Mobil</a></li>
         <li class="nav-item"><a class="nav-link <?= ($page=='penyewaan'?'active':'') ?>" href="penyewaan.php">Penyewaan</a></li>
