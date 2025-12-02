@@ -198,7 +198,7 @@ INSERT INTO mobil (merk, tipe, plat_nomor, tahun, warna, harga_sewa, status) VAL
 ('Suzuki','Juke','BE1197AA',2021,'Abu-abu',1025684,'tersedia'),
 ('Honda','Stargazer','BE1198AA',2024,'Merah',991239,'disewa'),
 ('BMW','Juke','BE1199AA',2022,'Kuning',989748,'perawatan'),
-('Daihatsu','Ertiga','BE1200AA',2018,'Abu-abu',601637,'perawatan');
+('Daihatsu','Ertiga','BE1200AA',2018,'Abu-abu',601637,'perawatan'),
 
 ('Toyota','Avanza','BE1201AA',2021,'Hitam',455000,'tersedia'),
 ('Honda','Brio','BE1202AA',2020,'Putih',390000,'disewa'),
@@ -309,4 +309,5 @@ INSERT INTO mobil (merk, tipe, plat_nomor, tahun, warna, harga_sewa, status) VAL
 ('Kia','K5','BE1298AA',2022,'Putih',980000,'perawatan'),
 ('Wuling','Arjuna','BE1299AA',2021,'Hitam',600000,'tersedia'),
 ('Mazda','CX-9','BE1300AA',2024,'Abu-abu',1350000,'disewa');
+
 
