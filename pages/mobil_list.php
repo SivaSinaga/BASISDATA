@@ -1,9 +1,8 @@
-<?php
+<?php 
 require 'config.php';
 cek_login();
 include 'templates/header.php';
-
-/* untuk filter */
+/*filter*/
 $q      = isset($_GET['q']) ? trim($_GET['q']) : '';
 $status = isset($_GET['status']) ? $_GET['status'] : 'semua';
 $limit  = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
@@ -29,8 +28,8 @@ if (!empty($whereParts)) {
     $where = 'WHERE ' . implode(' AND ', $whereParts);
 }
 
-/*  QUERY DATA MOBIL  */
-$data = mysqli_query($conn, "SELECT * FROM mobil ORDER BY id_mobil DESC");
+/* query data mobil*/
+$sql  = "SELECT * FROM mobil $where ORDER BY id_mobil ASC LIMIT $limit";
 $data = mysqli_query($conn, $sql);
 ?>
 
@@ -39,7 +38,7 @@ $data = mysqli_query($conn, $sql);
   <a href="mobil_form.php" class="btn btn-pink">+ Tambah Mobil</a>
 </div>
 
-FORM FILTER -->
+<!-- FORM FILTER -->
 <form class="mb-3" method="get">
   <!-- baris 1: pencarian -->
   <div class="row g-2 mb-2">
@@ -52,7 +51,7 @@ FORM FILTER -->
     </div>
   </div>
 
-  <!-- baris 2: limit, status, tombol filter -->
+  <!-- baris 2: limit + status + tombol filter -->
   <div class="row g-2 align-items-center">
     <!-- jumlah data -->
     <div class="col-auto">
@@ -97,19 +96,19 @@ FORM FILTER -->
         </tr>
       </thead>
       <tbody>
-      <?php $no=1; while($m=mysqli_fetch_assoc($data)): ?>
+      <?php while($m = mysqli_fetch_assoc($data)): ?>
         <tr>
-          <!-- memakai id_mobil asli dari database -->
+            
           <td><?= $m['id_mobil'] ?></td>
           <td><?= htmlspecialchars($m['merk']) ?></td>
           <td><?= htmlspecialchars($m['tipe']) ?></td>
           <td><?= htmlspecialchars($m['plat_nomor']) ?></td>
           <td><?= $m['tahun'] ?></td>
           <td><?= htmlspecialchars($m['warna']) ?></td>
-          <td>Rp <?= number_format($m['harga_sewa'],0,',','.') ?></td>
+          <td>Rp <?= number_format($m['harga_sewa'], 0, ',', '.') ?></td>
           <td><span class="badge badge-soft"><?= $m['status'] ?></span></td>
           <td class="d-flex gap-1">
-            <a class="btn btn-sm btn-outline-secondary" 
+            <a class="btn btn-sm btn-outline-secondary"
                href="mobil_form.php?id=<?= $m['id_mobil'] ?>">Edit</a>
             <a class="btn btn-sm btn-outline-danger"
                onclick="return confirm('Hapus mobil ini?')"
