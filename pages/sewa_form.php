@@ -12,11 +12,17 @@ $sewa = [
   'tanggal_rencana_kembali'=>date('Y-m-d', strtotime('+1 day')),
   'status_sewa'=>'berjalan'
 ];
+$nama_pelanggan_terpilih = '';
 
 if ($edit) {
     $res = mysqli_query($conn, "SELECT * FROM sewa WHERE id_sewa=$id");
     if ($res && mysqli_num_rows($res) === 1) {
         $sewa = mysqli_fetch_assoc($res);
+        $resPel = mysqli_query($conn, "SELECT nama_pelanggan FROM pelanggan WHERE id_pelanggan=".$sewa['id_pelanggan']." LIMIT 1");
+        if ($resPel && mysqli_num_rows($resPel) === 1) {
+            $rowPel = mysqli_fetch_assoc($resPel);
+            $nama_pelanggan_terpilih = $rowPel['nama_pelanggan'];
+        }
     }
 }
 
@@ -27,6 +33,16 @@ $mobil = mysqli_query($conn, "
 ");
 
 if (isset($_POST['simpan'])) {
+    // ambil nama pelanggan dari input teks
+    $nama_pel = trim($_POST['nama_pelanggan']);
+    $nama_pel = mysqli_real_escape_string($conn, $nama_pel);
+
+    $resPel = mysqli_query($conn, "SELECT id_pelanggan FROM pelanggan WHERE nama_pelanggan='$nama_pel' LIMIT 1");
+    if (!$resPel || mysqli_num_rows($resPel) === 0) {
+        die("Pelanggan dengan nama tersebut tidak ditemukan. Silakan tambahkan di menu Pelanggan terlebih dahulu.");
+    }
+    $rowPel     = mysqli_fetch_assoc($resPel);
+    
     $id_pelanggan = (int)$_POST['id_pelanggan'];
     $id_mobil     = (int)$_POST['id_mobil'];
     $tgl_sewa     = $_POST['tanggal_sewa'];
@@ -53,8 +69,6 @@ if (isset($_POST['simpan'])) {
                 VALUES($id_pelanggan,$id_mobil,$id_pegawai,'$tgl_sewa','$tgl_kembali',$total,'berjalan')";
         mysqli_query($conn, $sql);
         mysqli_query($conn, "UPDATE mobil SET status='disewa' WHERE id_mobil=$id_mobil");
-        header("Location: sewa_list.php");
-        exit;
     }
 
     mysqli_query($conn, $sql);
@@ -72,15 +86,25 @@ include 'templates/header.php';
     <form method="post" class="row g-3">
       <div class="col-md-6">
         <label class="form-label">Pelanggan</label>
-        <select name="id_pelanggan" class="form-select" required>
-          <option value="">- pilih pelanggan -</option>
-          <?php mysqli_data_seek($pelanggan,0); while($p=mysqli_fetch_assoc($pelanggan)): ?>
-            <option value="<?= $p['id_pelanggan'] ?>" <?= $sewa['id_pelanggan']==$p['id_pelanggan']?'selected':''; ?>>
-              <?= htmlspecialchars($p['nama_pelanggan']) ?>
-            </option>
-          <?php endwhile; ?>
-        </select>
+        <input type="text"
+               name="nama_pelanggan"
+               class="form-control"
+               list="pelangganList"
+               placeholder="ketik nama pelanggan..."
+               value="<?= htmlspecialchars($nama_pelanggan_terpilih) ?>"
+               required>
+        <datalist id="pelangganList">
+          <?php if ($pelanggan): ?>
+            <?php while($p = mysqli_fetch_assoc($pelanggan)): ?>
+              <option value="<?= htmlspecialchars($p['nama_pelanggan']) ?>"></option>
+            <?php endwhile; ?>
+          <?php endif; ?>
+        </datalist>
+        <div class="form-text">
+          Nama harus sudah terdaftar di menu Pelanggan.
+        </div>
       </div>
+      
       <div class="col-md-6">
         <label class="form-label">Mobil</label>
         <select name="id_mobil" class="form-select" required>
