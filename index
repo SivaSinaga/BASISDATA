@@ -12,8 +12,8 @@ $sewa_terbaru = mysqli_query($conn, "
   JOIN pelanggan p ON s.id_pelanggan=p.id_pelanggan
   JOIN mobil m ON s.id_mobil=m.id_mobil
   ORDER BY s.id_sewa DESC
-  LIMIT 10
-");
+  LIMIT 5
+"); // sorting = Menampilkan 5 data sewa terbaru lengkap dengan info pelanggan dan mobilnya.
 
 include 'templates/header.php';
 ?>
