@@ -15,7 +15,7 @@ cek_login();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet"> <!--terhubung ke css yg buat tampilan lebih menarik-->
 </head>
-<body class="bg-soft"> <!--warna background-->
+<body class="bg-light d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg navbar-soft sticky-top">
   <div class="container">
@@ -24,22 +24,21 @@ cek_login();
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="nav">
+     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto gap-2">
-        <li class="nav-item"><a class="nav-link <?= ($page=='dashboard'?'active':'') ?>" href="index.php">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link <?= ($page=='mobil'?'active':'') ?>" href="mobil.php">Data Mobil</a></li>
-        <li class="nav-item"><a class="nav-link <?= ($page=='penyewaan'?'active':'') ?>" href="penyewaan.php">Penyewaan</a></li>
-        <li class="nav-item"><a class="nav-link <?= ($page=='pelanggan'?'active':'') ?>" href="pelanggan.php">Pelanggan</a></li>
-        <li class="nav-item"><a class="nav-link <?= ($page=='pembayaran'?'active':'') ?>" href="pembayaran.php">Pembayaran</a></li>
-        <li class="nav-item"><a class="nav-link <?= ($page=='pengembalian'?'active':'') ?>" href="pengembalian.php">Pengembalian</a></li>
-        <li class="nav-item"><a class="nav-link" href="logout.php" onclick="return confirm('Logout?')">Logout</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.php">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="mobil_list.php">Mobil</a></li>
+        <li class="nav-item"><a class="nav-link" href="pelanggan_list.php">Pelanggan</a></li>
+        <li class="nav-item"><a class="nav-link" href="sewa_list.php">Sewa</a></li>
+        <li class="nav-item"><a class="nav-link" href="pembayaran_list.php">Pembayaran</a></li>
+        <li class="nav-item"><a class="nav-link" href="pengembalian_list.php">Pengembalian</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php" onclick="return confirm('Logout?')">Logout</a>
+        </li>
       </ul>
     </div>
   </div>
-</nav>
-  </div>
-</nav>
-
+</nav>  
     
 <main class="flex-grow-1">
     <div class="container py-4">
