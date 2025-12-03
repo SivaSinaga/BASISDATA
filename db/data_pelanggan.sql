@@ -647,4 +647,5 @@ INSERT INTO pelanggan (nama_pelanggan, alamat, no_hp, no_ktp, created_at) VALUES
 ('Budi Lestari', 'Jl. Flamboyan No.15, Lampung Utara', '08853911914', '1671000000146', '2024-05-25 09:00:00'),
 ('Putri Sari', 'Jl. Elang No.24, Lampung Timur', '08705398168', '1671000000147', '2024-05-26 09:00:00'),
 ('Ilham Prasetyo', 'Jl. Sudirman No.48, Pesawaran', '08466295565', '1671000000148', '2024-05-27 09:00:00'),
-('Winda Ayuningtyas', 'Jl. Imam Bonjol No.18, Lampung Selatan', '08381053753', '1671000000149', '2024-05-28 09:00:00');
+('Winda Ayuningtyas', 'Jl. Imam Bonjol No.18, Lampung Selatan', '08381053753', '1671000000149', '2024-05-28 09:00:00'),
+('Oki Hartono', 'Jl. Raden Intan No.21, Pringsewu', '08908773577', '1671000000150', '2024-05-29 09:00:00');
