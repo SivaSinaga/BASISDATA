@@ -97,8 +97,16 @@ $data = mysqli_query($conn, $sql);
       </thead>
       <tbody>
       <?php while($m = mysqli_fetch_assoc($data)): ?>
-        <tr>
-            
+    <?php
+          // warna status
+          $badgeClass = match($m['status']) {
+            'tersedia'  => 'bg-success',              
+            'disewa'    => 'bg-danger',               
+            'perawatan' => 'bg-warning text-dark',   
+            default     => 'bg-secondary'
+          };
+        ?>
+        <tr> 
           <td><?= $m['id_mobil'] ?></td>
           <td><?= htmlspecialchars($m['merk']) ?></td>
           <td><?= htmlspecialchars($m['tipe']) ?></td>
@@ -106,7 +114,11 @@ $data = mysqli_query($conn, $sql);
           <td><?= $m['tahun'] ?></td>
           <td><?= htmlspecialchars($m['warna']) ?></td>
           <td>Rp <?= number_format($m['harga_sewa'], 0, ',', '.') ?></td>
-          <td><span class="badge badge-soft"><?= $m['status'] ?></span></td>
+         <td>
+            <span class="badge <?= $badgeClass ?>">
+              <?= htmlspecialchars($m['status']) ?>
+            </span>
+          </td>
           <td class="d-flex gap-1">
             <a class="btn btn-sm btn-outline-secondary"
                href="mobil_form.php?id=<?= $m['id_mobil'] ?>">Edit</a>
