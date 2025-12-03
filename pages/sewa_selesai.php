@@ -5,6 +5,7 @@ cek_login();
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id > 0) {
+    // ambil id_mobil
     $res = mysqli_query($conn, "SELECT id_mobil FROM sewa WHERE id_sewa=$id");
     if ($res && mysqli_num_rows($res) === 1) {
         $row = mysqli_fetch_assoc($res);
